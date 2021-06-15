@@ -1,0 +1,49 @@
+package com.example.my_challange_CRUD.service;
+
+import java.util.List;
+import java.util.Optional;
+
+import com.example.my_challange_CRUD.DataAccess.RegistrationRepository;
+import com.example.my_challange_CRUD.model.Registration;
+import com.example.my_challange_CRUD.model.RegistrationDTO;
+import com.example.my_challange_CRUD.model.RegistrationResponse;
+
+public class RegistrationService {
+	private RegistrationRepository registrationRepo;
+	
+	public List<Registration> getRegistrations() {
+		return registrationRepo.findAll();
+	}
+	
+	public RegistrationResponse createRegistration(RegistrationDTO registDTO) {
+		Registration registered = registrationRepo.save(new Registration(registDTO));
+		RegistrationResponse registrationResponse = new RegistrationResponse(registered);
+		return registrationResponse;
+	}
+
+	public RegistrationResponse updateRegistration(long id, RegistrationDTO rDTO) {
+		Registration registration = registrationRepo.findById(id)
+				.orElseThrow(() -> new RuntimeException("No such registration found"));
+		if (registration != null) {
+			registration.setFirstName(rDTO.getFirstName());
+			registration.setLastName(rDTO.getLastName());
+			registration.setGender(rDTO.getGender());
+			registration.setEmail(rDTO.getEmail());
+			registration.setDOB(rDTO.getDOB());
+			registration.setPhoneNumber(rDTO.getPhoneNumber());
+			registration.setPassword(rDTO.getPassword());
+			
+			registrationRepo.save(registration);
+		}
+		return new RegistrationResponse(registration);
+	}
+
+	public boolean deleteRegistration(long id) {
+		Registration registration = registrationRepo.findById(id)
+				.orElseThrow(() -> new RuntimeException("No such registration found"));
+		if (registration != null) {
+			registrationRepo.delete(registration);
+		}
+		return false;
+	}
+}

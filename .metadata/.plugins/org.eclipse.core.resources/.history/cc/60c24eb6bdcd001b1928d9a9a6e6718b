@@ -1,0 +1,14 @@
+package com.example.my_challange_CRUD.service;
+
+import java.util.List;
+
+import com.example.my_challange_CRUD.DataAccess.RegistrationRepository;
+import com.example.my_challange_CRUD.model.RegistrationResponse;
+
+public class RegistrationService {
+	private RegistrationRepository registrationRepo;
+	
+	public RegistrationResponse getRegistrations() {
+		return registrationRepo.findAll();
+	}
+}

@@ -1,0 +1,5 @@
+package com.example.my_challange_CRUD.model;
+
+public class Registration {
+
+}
